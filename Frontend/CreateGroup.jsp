@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="ISO-8859-1">
 
@@ -10,23 +10,15 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
-let memberCount = 1;
-function addMember() {
-    memberCount++;
-    let membersDiv = document.getElementById("members");
-    let newMemberDiv = document.createElement("div");
-    newMemberDiv.classList.add("member");
-
-    newMemberDiv.innerHTML = `
-        <label for="memberEmail${memberCount}">Member Email:</label>
-        <input type="email" id="memberEmail${memberCount}" name="memberEmails" required/>
         
-        <br><br>
-    `;
-    membersDiv.appendChild(newMemberDiv);
+function addMember() {
+    const newInput = document.createElement("input");
+    newInput.type = "text";
+    newInput.name = "memberName";
+    newInput.placeholder = "Enter Member Name";
+    document.getElementById("member-fields").appendChild(newInput);
 }
-
-</script>
+    </script>
 
 </head>
 <body>
@@ -37,25 +29,25 @@ function addMember() {
   <ul class="navbar-nav">
     <li class="nav-item">
     
-<div id="d1">     
-<button type="button" class="btn btn-light" id="two">Dashboard</button>
+<div id="d1"> 
+<form action="homepage">    
+<button type="submit" class="btn btn-light" id="two">Dashboard</button>
+</form>
 <i class="fa-solid fa-gauge fa-xl" id="img1"></i>
 </div>
 <br>
     </li>
     <li class="nav-item">
      <div id="d2">
-        <form action="splitpage">
-<button type="submit" class="btn btn-light" id="one"> &nbsp;Notification</button>
-</form>
+     <form action="createaccount"> 
+<button type="submit" class="btn btn-light" id="one">&nbsp;Notification</button>
+     </form>
 <i class="fa-solid fa-bell fa-xl" id="img2"></i>
 </div><br>
     </li>
     <li class="nav-item">
       <div id="d3">
-       <form action="history">
-<button type="submit" class="btn btn-light" id="one">View History</button>
-</form>
+<button type="button" class="btn btn-light" id="one">View History</button>
 <i class="fa-solid fa-money-check-dollar fa-xl" id="img3"></i>
 </div><br>
     </li>
@@ -84,60 +76,42 @@ function addMember() {
     </li>
   </ul>
 </nav>
+<!-- Add Member Form -->
 <div id="d7">
 
-  <!-- Heading -->
-  <h1 id="heading">Welcome to SplitWise System</h1>
-  <h6 id="hed">Let's start with creating your group</h6>
-    <form action="${pageContext.request.contextPath}/addGroupWithMembers" method="POST" >
-    <!-- Group Name Input -->
-    <label for="groupName">Group Name:</label>
-    <input type="text" id="groupName" name="groupName" required/><br><br>
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Add Member</title>
+</head>
+<body>
+    <h2>Add Member</h2>
+    <form action="/members/add" method="post">
+        <label for="name">Member Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
 
-    <!-- Members Section (you can add more fields dynamically) -->
-    <div id="members">
-        <div class="member">
-            <label for="memberEmail1">Member Email:</label>
-            <input type="email" id="memberEmail1" name="memberEmails" required/><br><br>
-        </div>
-    </div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
 
-    <!-- Button to add more member fields -->
-    <button type="button" onclick="addMember()" class="btn btn-primary">ADD MEMBER</button><br><br>
+        <label for="group">Group:</label>
+        <select id="group" name="groupId" required>
+            <c:forEach items="${groups}" var="group">
+                <option value="${group.id}">${group.name}</option>
+            </c:forEach>
+        </select><br><br>
 
-    <button type="submit"class="btn btn-primary" >CREATE GROUP</button>
-</form>
-</div> 
+        <button type="submit">Add Member</button>
+    </form>
+
+    <p>${message}</p>
 </body>
+</html>
+ 
+</div>
+
+</body>
+
 <style>
-
- /* Styling for the container div */
-
-/* Center the content on the page */
-#heading {
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  color: #3B82F6; /* Blue color for the title */
-  margin-top: 30px;
-}
-
-
-
-
- 	
-/* Style for the button */
-#hed2 {
-  position:relative;
-  top:20px;
-}
-#hed {
-  position:relative;
-  left:0px;
-  top:0px;
-}
-
-
 /* Apply styles to the heading */
 #heading {
   font-size: 3rem;
@@ -179,59 +153,23 @@ function addMember() {
 
 /* Center the content inside the #d7 container */
 #d7 {
+
   height: 750px;
-      width: 1136px;
-      display: flex;             
-      justify-content: center;   
-      align-items: center;       
-      flex-direction: column;   
-      background-color: rgba(179, 199, 230, 0.382);
-      color: black;
-      border-radius: 10px;       
-      text-align: center;        
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
- 
-            }
-            
-#d7 button
-{
-height:35px;
-width:150px;
+  width: 1136px;
+  display: flex;             /* Use Flexbox */
+  justify-content: center;   /* Center content horizontally */
+  align-items: center;       /* Center content vertically */
+  flex-direction: column;    /* Stack items vertically (heading + content + button) */
+  background-color: rgba(179, 199, 230, 0.382);
+  color: black;
+  border-radius: 10px;       /* Optional: Add rounded corners */
+  padding: 40px 20px;        /* Optional: Add padding inside the div */
+  text-align: center;        /* Ensure text is centered inside the div */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow for depth */
 }
-#d7 button:Hover
-{
-	background-color:darkblue;
-}
-#d7 form {
-    flex-direction: column;
- 
-}
-
-/* Styling for input fields */
-#d7 input[type="text"],
-#d7 input[type="email"] {
-    width: 100%;
-    height:25px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-/* Focus state for input fields */
-#d7 input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-#heading, #hed {
-  text-align: center;
-}
-
 
 /* Styling for the new content paragraph (system info) */
 #system-info {
-
   font-size: 1.25rem; /* Slightly larger font size */
   color: #333; /* Darker text for better readability */
   line-height: 1.6; /* Increased line height for better readability */
@@ -245,26 +183,66 @@ width:150px;
   text-align: justify; /* Justify text for better flow */
 }
 
+/* Style for the button */
 .cta-button {
-    display: inline-flex; /* Enables flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    background-color: #3B82F6; /* Blue background */
-    color: white; /* White text */
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 48%; /* Ensure both buttons share the available space */
-    margin: 10px;
-    text-align: center; /* Ensures text is centered */
+  font-family: 'poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #1E3A8A, #3B82F6); 
+  color: #fff;
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 20px; /* Space between the paragraph and the button */
 }
-
 
 .cta-button:hover {
-  background-color: #1E3A8A; /* Darker blue on hover */
+  background: linear-gradient(90deg, #3B82F6, #1E3A8A); /* Reversed blue gradient */
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
+
+/* Styling for system name */
+.system-name {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #93C5FD; /* Light blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+  #heading {
+    font-size: 2.5rem;
+  }
+
+  #system-info {
+    font-size: 1rem;
+  }
+
+  .cta-button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+
+  #d7 {
+    width: 90%; /* Adjust width on smaller screens */
+    height: auto;
+  }
+}
+
+
 #logo
 {
 position:relative;
@@ -557,8 +535,8 @@ button
 }
 select:hover
 {
-    background-color:rgba(179, 199, 230, 0.200);
-	color:darkblue;
+    background-color:#cff0ff;
+	color:rgb(9, 87, 135);
 }
 select
 {
@@ -580,7 +558,6 @@ select
     position: relative;
     top:-37px;
     left:50px;
-    
     
 }
 #img3
@@ -613,8 +590,8 @@ select
 }
 #d1:hover,#d2:hover,#d3:hover,#d4:hover,#d5:hover,#d6:hover,#one:hover, #two:hover
 {
-   background-color:rgba(179, 199, 230, 0.200);
-	color:darkblue;
+   background-color:#cff0ff;
+	color:rgb(9, 87, 135);
     border-radius: 5px;
 
 }
