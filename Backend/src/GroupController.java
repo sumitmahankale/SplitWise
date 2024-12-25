@@ -32,12 +32,12 @@ public class GroupController {
 
     @PostMapping("/addGroupWithMembers")
     public String addGroupWithMembers(@RequestParam String groupName, @RequestParam List<String> memberEmails, Model model) {
-        // Create and save the group
+
         UserGroup group = new UserGroup();
         group.setName(groupName);
         userGroupService.save(group);
 
-        // Create and save the members for the group
+        
         for (String email : memberEmails) {
             Member member = new Member();
             member.setEmail(email);
@@ -46,6 +46,13 @@ public class GroupController {
         }
 
         model.addAttribute("message", "Group and members added successfully!");
-        return "redirect:/addGroupWithMembers";  // Redirect back to the form
+        return "SplitPage";  
     }
+
+    @GetMapping("/group")
+    public String showGroup(Model model) {
+        model.addAttribute("group", "Test Group");
+        return "group";  
+    }
+    
 }
