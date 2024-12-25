@@ -1,40 +1,57 @@
 package com.Service;
 
+
+
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Model.Expense;
-import com.Model.UserGroup;
 import com.Repository.ExpenseRepository;
-import com.Repository.UserGroupRepository;
 
 @Service
 public class ExpenseService {
 
     @Autowired
-    private UserGroupRepository groupRepository;
-
-    @Autowired
     private ExpenseRepository expenseRepository;
 
-    public void addExpense(Long groupId, String description, Double amount, String payer,
-                           List<String> involvedMembers, Map<String, Double> splitAmounts) {
-        UserGroup group = groupRepository.findById(groupId)
-                        .orElseThrow(() -> new RuntimeException("Group not found"));
+	public void saveExpense(Expense expense) {
+		expenseRepository.save(expense);
+		
+	}
 
-        Expense expense = new Expense();
-        expense.setGroup(group);
-        expense.setDescription(description);
-        expense.setAmount(amount);
-        expense.setPayer(payer);
-        expense.setInvolvedMembers(involvedMembers);
-        expense.setSplitAmounts(splitAmounts);
+	public List<Expense> updateStudent(Expense expense) {
+		
+		return expenseRepository.findAll();
+	}
 
-        expenseRepository.save(expense);
+	public List<Expense> getAllExpenses() {
+	
+		 List<Expense> expenses = expenseRepository.findAll();  // Fetch the expenses
+		    return expenses != null ? expenses : new ArrayList<>(); 
+	}
 
-        // Optionally, update balances or track debt for each member here
+	public List<Expense> deleteData(int id) {
+		expenseRepository.deleteById(id);
+		return expenseRepository.findAll();
+	}
+
+	public List<Expense> ViewData() {
+		return expenseRepository.findAll();
+	}
+
+	public Expense updateData(int id) {
+		return expenseRepository.findById(id).get();
+	}
+	public long getTotalAmount() {
+        // Sum the amounts of all expenses
+        return expenseRepository.findAll()
+                .stream()
+                .mapToLong(Expense::getAmount) // Change to mapToLong since `amount` is a long type
+                .sum();
     }
+   
 }
