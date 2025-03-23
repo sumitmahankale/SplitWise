@@ -6,6 +6,14 @@ A Spring Boot expense management application for tracking and splitting shared e
 
 SplitWise is a web application designed to help users manage shared expenses. Whether you're splitting bills with roommates, tracking expenses for a trip, or managing costs for an event, SplitWise makes it easy to keep track of who paid what and who owes whom.
 
+![Screenshot 2025-03-23 080745](https://github.com/user-attachments/assets/d9350722-b488-4ac6-a0d1-4879d8c52106)
+
+![Screenshot 2025-03-23 081022](https://github.com/user-attachments/assets/25f9f460-2d10-45ed-b41d-770af3a3c06d)
+
+![Screenshot 2025-03-23 081118](https://github.com/user-attachments/assets/7c3a6a58-25bd-4bf6-8100-840c41b77594)
+
+
+
 ## Features
 
 - **User Authentication**: Secure signup and login functionality
